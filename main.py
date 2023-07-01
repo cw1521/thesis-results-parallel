@@ -195,7 +195,7 @@ def export_results(results, file_name):
 
 
 def perform_batch_translation(args):
-  print(f'Working on file: {args[1]}')
+  print(f'Working on Batch Number: {args[1]}')
   results = perform_back_translation_with_augmentation(args[0])
   return results
 
@@ -208,7 +208,7 @@ def get_batch_dataset(texts, batch_size):
     file_number = 0
     for i in range(0, len(texts), batch_size):
         temp_text = []
-        file_number = file_number + 1
+        batch_number = batch_number + 1
         # SET temp_text equal to the batch size IF enough elements exist in list
         # ELSE SET equal to elements left in list
         if len(texts[i:i+batch_size]) == batch_size:
@@ -216,7 +216,7 @@ def get_batch_dataset(texts, batch_size):
         else:
             temp_text = texts[i:]
 
-        dataset.append((temp_text, file_number))
+        dataset.append((temp_text, batch_number))
     return dataset
         
     
