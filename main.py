@@ -16,7 +16,7 @@ def get_token():
 
 AUTH_TOKEN = get_token()["token"]
 
-BATCH_SIZE = 1
+BATCH_SIZE = 100
 NUM_OF_PROCESSES = 30
 
 
@@ -245,7 +245,7 @@ if __name__ == '__main__':
       field='data'
       )
 
-  raw_states = raw_data['test']['input'][0:299]
+  raw_states = raw_data['test']['input']
 
   pooled_batch_translation(raw_states, BATCH_SIZE)
 
