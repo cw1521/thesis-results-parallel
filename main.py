@@ -32,12 +32,6 @@ OUTPUT_FILE_PATH = 'output\\results-sm-10.json'
 
 
 
-
-
-"""Perform the Translations
-(https://towardsdatascience.com/data-augmentation-in-nlp-using-back-translation-with-marianmt-a8939dfea50a)
-"""
-
 def perform_translation(batch_texts, model, tokenizer):
   # Generate translation using models
   translated = model.generate(**tokenizer(batch_texts, return_tensors="pt", padding=True))
@@ -47,8 +41,6 @@ def perform_translation(batch_texts, model, tokenizer):
   return translated_texts
 
 
-
-"""Similarity Function (cosine) https://stackoverflow.com/questions/15173225/calculate-cosine-similarity-given-2-sentence-strings"""
 
 def text_to_vector(text):
   WORD = compile(r"\w+")
@@ -72,10 +64,6 @@ def get_cosine(vec1, vec2):
 
 
 
-
-
-
-"""Jaccard Similarity (https://stackoverflow.com/questions/11911252/python-jaccard-distance-using-word-intersection-but-not-character-intersection)"""
 
 def jaccard_similarity(str1, str2):
     str1 = set(str1.split())
@@ -103,8 +91,6 @@ def get_state_obj(state):
         state_obj[elem_list[0]] = elem_list[1:]
 
   return state_obj
-
-
 
 
 def calc_loss(p1, p2):
