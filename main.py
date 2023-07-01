@@ -205,7 +205,7 @@ def perform_batch_translation(args):
 
 def get_batch_dataset(texts, batch_size):
     dataset = []
-    file_number = 0
+    batch_number = 0
     for i in range(0, len(texts), batch_size):
         temp_text = []
         batch_number = batch_number + 1
