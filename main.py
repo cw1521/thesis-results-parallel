@@ -32,16 +32,6 @@ OUTPUT_FILE_PATH = 'output\\results-sm-10.json'
 
 
 
-def perform_translation(batch_texts, model, tokenizer):
-  # Generate translation using models
-  translated = model.generate(**tokenizer(batch_texts, return_tensors="pt", padding=True))
-  # Convert the generated tokens indices back into text
-  translated_texts = [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
-
-  return translated_texts
-
-
-
 def text_to_vector(text):
   WORD = compile(r"\w+")
   words = WORD.findall(text)
@@ -159,45 +149,47 @@ def get_tokenizer(checkpoint):
 
 
 
+def perform_translation(batch_texts, model, tokenizer):
+  # Generate translation using models
+  translated = model.generate(**tokenizer(batch_texts, return_tensors="pt", padding=True))
+  # Convert the generated tokens indices back into text
+  translated_texts = [tokenizer.decode(t, skip_special_tokens=True) for t in translated]
+
+  return translated_texts
+
+
+
 def perform_back_translation_with_augmentation(batch_texts):
 
-  en_st_model = get_model(EN_ST_CHECKPOINT)
-  en_st_tokenizer = get_tokenizer(EN_ST_CHECKPOINT)
+    en_st_model = get_model(EN_ST_CHECKPOINT)
+    en_st_tokenizer = get_tokenizer(EN_ST_CHECKPOINT)
 
-  st_en_model = get_model(ST_EN_CHECKPOINT)
-  st_en_tokenizer = get_tokenizer(ST_EN_CHECKPOINT)
+    st_en_model = get_model(ST_EN_CHECKPOINT)
+    st_en_tokenizer = get_tokenizer(ST_EN_CHECKPOINT)
 
-  # Translate from State to English
-  tmp_translated_batch = perform_translation(
-    batch_texts,
-    st_en_model,
-    st_en_tokenizer
-  )
+    # Translate from State to English
+    tmp_translated_batch = perform_translation(
+      batch_texts,
+      st_en_model,
+      st_en_tokenizer
+    )
 
-  # Translate Back to State
-  back_translated_batch = perform_translation(
-     tmp_translated_batch,
-     en_st_model,
-     en_st_tokenizer
-  )
+    # Translate Back to State
+    back_translated_batch = perform_translation(
+      tmp_translated_batch,
+      en_st_model,
+      en_st_tokenizer
+    )
 
-  # Return The Final Result
-  return combine_texts(batch_texts, back_translated_batch)
-
-
-
-
-def export_results(results, file_name):
-    with open(f'{file_name}.json', 'w') as f:
-        dump(results, f)
-
+    # Return The Final Result
+    return combine_texts(batch_texts, back_translated_batch)
 
 
 
 def perform_batch_translation(args):
-  print(f'Working on Batch Number: {args[1]}')
-  results = perform_back_translation_with_augmentation(args[0])
-  return results
+    print(f'Working on Batch Number: {args[1]}')
+    results = perform_back_translation_with_augmentation(args[0])
+    return results
 
 
 
@@ -220,6 +212,11 @@ def get_batch_dataset(texts, batch_size):
     return dataset
         
     
+
+def export_results(results, file_name):
+    with open(f'{file_name}.json', 'w') as f:
+        dump(results, f)
+
 
 
 
