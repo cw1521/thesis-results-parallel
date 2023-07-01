@@ -16,8 +16,8 @@ def get_token():
 
 AUTH_TOKEN = get_token()["token"]
 
-BATCH_SIZE = 100
-NUM_OF_PROCESSES = 30
+BATCH_SIZE = 10
+NUM_OF_PROCESSES = 60
 
 
 ST_EN_CHECKPOINT = 'cw1521/st-en-10'
